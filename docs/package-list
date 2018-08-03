@@ -1,0 +1,8 @@
+com.andrew.productcatalogue2.entity
+com.andrew.productcatalogue2.entity.users
+com.andrew.productcatalogue2.exceptions
+com.andrew.productcatalogue2.pagination
+com.andrew.productcatalogue2.properties
+com.andrew.productcatalogue2.search
+com.andrew.productcatalogue2.service
+com.andrew.productcatalogue2.validation
