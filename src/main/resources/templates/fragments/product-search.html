@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Searchbar</title>
+</head>
+<body>
+
+
+
+<!--START SEARCHBAR FORM FRAGMENT--->
+    <!--this search bar form can be used for product searches. It allows for id or title searches, and supports sorting and pagination options and a price range-->
+    <form class="border pt-4 pb-4 mt-2" style="background-color:#e5ebf0" th:action="${searchURL}"  th:method="get" th:fragment="searchbar">
+
+        <!--this row is for all search types (by title or product id)-->
+        <div class="row ml-2 mb-2 ">
+            <div class="input-group ml-4 mr-5 ">
+
+
+                <div class="input-group-prepend">
+
+                    <select class="bg-info text-white" name="productType" id="productType" onchange="this.form.submit()">
+                        <option value="All">All</option>
+                        <option th:each="productType: ${productTypes}"
+                                th:text="${productType.pluralisedName()}"
+                                th:value="${productType.name()}"
+                                th:selected="${productType.toString()} == ${selectedProductType}">
+                        </option>
+                    </select>
+                </div>
+
+
+                <input type="search" id="searchTerm" style="width:250px" placeholder="Search all" name="searchTerm"  th:value="${searchTerm}">
+                <span class="input-group-append">
+                                      <button class="btn btn-outline-secondary bg-primary text-white font-weight-bold" type="button" onclick="this.form.submit()">
+                                         <i class="fa fa-search"></i>
+                                     </button>
+                                    </span>
+            <div class="form-check-inline mt-2">
+                <div class="form-check ">
+                    <label class="form-check-label" for="searchByTitle">
+                        <input type="radio" class="form-check-input" id="searchByTitle" name="searchBy" value="TITLE" th:checked="'TITLE' == ${selectedSearchBy}" >Title search
+                    </label>
+                </div>
+                <div class="form-check ">
+                    <label class="form-check-label" for="searchById">
+                        <input type="radio" class="form-check-input" id="searchById" name="searchBy" value="ID"  th:checked="'ID' == ${selectedSearchBy}"> Product ID search
+                    </label>
+                </div>
+            </div>
+
+            </div>
+        </div>
+
+        <!--this row contains options that are only relevant when searching by title. They can therefore be hidden if searching by 'product id'-->
+        <div class="row ml-2 mb-2 mt-1">
+            <div id="titleSearchOptions" class="form-inline">
+
+
+                <div class="input-group ml-4 mr-5 mt-3 mb-2">
+                    <label for="pageSizeSelect" class="font-weight-bold">Results per page: </label>
+                    <select id="pageSizeSelect" name="pageSize" class="form-control shadow-sm ml-1" onchange="this.form.submit()">
+                        <option th:each="pageSize : ${pageSizes}" th:text="${pageSize}"
+                                th:value="${pageSize}"
+                                th:selected="${pageSize} == ${selectedPageSize}"></option>
+                    </select>
+                </div>
+
+                <div class="input-group ml-4 mt-3 mb-2">
+                    <label for="sortOrderSelect" class="font-weight-bold"> Sort by: </label>
+                    <select name="sortOrder" class="form-control shadow-sm ml-1 mr-3" id="sortOrderSelect" onChange="this.form.submit()">
+                        <option th:each="sortOrderValue : ${sortOrderValues}" th:text="${sortOrderValue.getDisplayName()}"
+                                th:value="${sortOrderValue.name()}"
+                                th:selected="${sortOrderValue} == ${selectedSortOrderValue}"></option>
+                    </select>
+                </div>
+
+                <div class="input-group ml-4 mt-3 mb-2">
+                    <label for="minPrice" class="font-weight-bold"> Price: </label>
+                    <div class="input-group-prepend ml-1">
+                        <span class="input-group-text" >£</span>
+                    </div>
+                    <input type="number"  id="minPrice" name="minPrice"  min="0.00" max="10000000000.00" step="0.01" th:placeholder="MinPrice"  th:value="${minPrice}" >
+
+
+                    <label for="maxPrice"> to </label>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">£</span>
+                    </div>
+                    <input type="number"    name="maxPrice"   id="maxPrice"  placeholder="Max Price" th:value="${maxPrice}">
+                    <span class="input-group-btn"><button class="btn btn-primary btn-md" type="button" onclick="this.form.submit()">Go!</button></span>
+                </div>
+            </div>   <!--end of form-inline-->
+        </div>  <!-- end of top row-->
+    </form> <!--end of fragment-->
+<!--END SEARCHBAR FORM FRAGMENT--->
+
+
+
+
+
+
+
+
+<!--START PAGE NAVIGATION OPTIONS FRAGMENT--->
+<!--displaying page navigation/pagination options-->
+    <div th:fragment="page-nav">
+          <div  th:if="${productPage.totalPages != 1}" >
+              <ul class="pagination mx-auto">
+                  <li th:class="${productPage.number == 0} ? 'page-item disabled'">
+                      <a data-toggle="tooltip" title="Go to first page"
+                         class="page-link"
+                         th:href="@{${searchURL} (productType=${selectedProductType}, searchTerm=${searchTerm}, pageSize=${selectedPageSize}, sortOrder=${selectedSortOrderValue}, minPrice=${minPrice}, maxPrice=${maxPrice}, page=1   )}">«</a>
+                  </li>
+                  <li th:class="${productPage.number == 0} ? 'page-item disabled'">
+                      <a data-toggle="tooltip" title="Previous page"
+                         class="page-link"
+                         th:href="@{${searchURL}(productType=${selectedProductType},searchTerm=${searchTerm}, pageSize=${selectedPageSize}, sortOrder=${selectedSortOrderValue}, minPrice=${minPrice}, maxPrice=${maxPrice}, page=${productPage.number})}">←</a>
+                  </li>
+                  <li th:class="${productPage.number == (page - 1)} ? 'page-item active pointer-disabled'"
+                      th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+                      <a class="page-link"
+                         th:href="@{${searchURL}(productType=${selectedProductType},searchTerm=${searchTerm}, pageSize=${selectedPageSize}, sortOrder=${selectedSortOrderValue}, minPrice=${minPrice}, maxPrice=${maxPrice}, page=${page})}"
+                         th:text="${page}"></a>
+                  </li>
+                  <li th:class="${productPage.number + 1 == productPage.totalPages} ? 'page-item disabled'">
+                      <a class="page-link" data-toggle="tooltip" title="Next page"
+                         th:href="@{${searchURL}(productType=${selectedProductType},searchTerm=${searchTerm}, pageSize=${selectedPageSize}, sortOrder=${selectedSortOrderValue}, minPrice=${minPrice}, maxPrice=${maxPrice}, page=${productPage.number + 2})}">→</a>
+                  </li>
+                  <li th:class="${productPage.number + 1 == productPage.totalPages} ? 'page-item disabled'">
+                      <a class="page-link" data-toggle="tooltip" title="Go to last page"
+                         th:href="@{${searchURL}(productType=${selectedProductType},searchTerm=${searchTerm}, pageSize=${selectedPageSize}, sortOrder=${selectedSortOrderValue}, minPrice=${minPrice}, maxPrice=${maxPrice}, page=${productPage.totalPages})}">»</a>
+                  </li>
+              </ul>
+          </div>
+    </div>
+<!--END PAGE NAVIGATION OPTIONS FRAGMENT-->
+
+
+
+
+
+
+
+
+</body>
+
+
+</html>

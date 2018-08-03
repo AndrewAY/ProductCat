@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Add Product Menu: Choose a product type/category</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.1.0/css/bootstrap.css" />
+    <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+    <!--INSERT NAV MENU-->
+    <div class="container-fluid">
+        <div th:replace="fragments/header :: header-nav"> </div>
+    </div>
+
+<!--START MAIN CONTAINER-->
+<div class = "container mx-auto">
+
+    <!--START ADD-PRODUCT MENU OPTIONS FORM-->
+    <form th:action="@{'/admin/add-product'}"  method="get">
+
+        <div class="form-group p-5">
+            <label for="productType" class="font-weight-bold">Choose the type of product to add: </label>
+            <select class="form-control" id="productType" name="productType">
+                <option th:each="productType: ${productTypes}"
+                        th:text="${productType.name()}"
+                        th:value="${productType.name()}"></option>
+            </select>
+
+
+        </div>
+
+        <button type="submit" class="btn btn-primary ml-5">Continue</button>
+    </form>
+    <!--END ADD-PRODUCT MENU OPTIONS FORM--->
+
+</div>
+<!--END MAIN CONTAINER-->
+
+
+
+</body>
+</html>

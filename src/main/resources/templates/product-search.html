@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/webjars/bootstrap/4.1.0/css/bootstrap.css" />
+    <link rel="stylesheet" href="/webjars/font-awesome/5.0.9/web-fonts-with-css/css/fontawesome-all.css" />
+    <!--<link rel="stylesheet" href="/static/css/styles.css" />-->
+    <link rel="stylesheet"    type="text/css" href="/css/styles.css"/>
+    <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <title>Product Search</title>
+</head>
+
+<body>
+
+    <!--INSERT NAV MENU-->
+    <div class="container-fluid">
+        <div th:replace="fragments/header :: header-nav"> </div>
+    </div>
+
+
+    <!--MESSAGE FOR USERS LOGGED IN WITH AN ADMIN ACCOUNT-->
+    <div  class="container mx-auto" th:if="${isAdmin!= null}">
+        <br>
+        <row>
+            <h3>
+                <div class="alert alert-info">Select a product to edit or delete</div>
+            </h3>
+        </row>
+    </div>
+
+
+    <!--MESSAGE CONFIRMATION FOR AFTER A PRODUCT HAS BEEN DELETED-->
+    <div  class="container mx-auto" th:if="${popupMessage != null && popupMessage != ''}">
+
+        <div class="modal fade" id="popupMessageModal">
+            <div class="modal-dialog  modal-dialog-centered">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h4 class="modal-title">Product has been deleted</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+     <!--INSERT GENERAL SEARCHBAR-->
+    <div class="container  mx-auto">
+        <div th:replace="fragments/product-search :: searchbar"> </div>
+    </div>
+
+
+
+<!--START SEARCH RESULTS CONTAINER-->
+    <div class="container mx-auto">
+
+     <!--START RESULTS MESSAGE AND PAGINATION OPTIONS-->
+        <div class="row mx-auto mt-4 mb-1">
+            <br>
+
+            <!--display correct message regarding number of results and pages-->
+            <div th:if="${#lists.isEmpty(productPage.getContent())}">
+                <p class="font-weight-bold mr-2"> There are no matching products</p>
+            </div>
+
+            <div th:with="pageNo=${productPage.number + 1}" th:if="${not #lists.isEmpty(productPage.getContent())}">
+                <p class="font-weight-bold mr-2">Found <span th:text="${productCount}">  </span>
+                    <span th:if="${#lists.size(productPage.getContent())} == 1" class="font-weight-bold mr-2">
+                    matching product. </span>
+                    <span th:if="${#lists.size(productPage.getContent())} > 1" class="font-weight-bold mr-2">
+                    matching products. </span>
+
+                    Showing page <span th:text="${pageNo}"> </span> of <span th:text="${{productPage.getTotalPages()}}"> </span>
+                </p>
+            </div>
+
+            <!--displaying page navigation/pagination options-->
+            <div th:if="${not #lists.isEmpty(productPage.getContent())}" class="row ml-4">
+                <div th:replace="fragments/product-search :: page-nav" > </div>
+            </div>
+        </div>
+    <!--END RESULTS MESSAGE AND PAGINATION OPTIONS-->
+
+
+     <!--START RESULTS TABLE-->
+        <div class="row">
+
+            <div class="col">
+                <table th:if="${not #lists.isEmpty(productPage.getContent())}" class="table table-hover table-sm" style="max-width: 1200px ">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th class="w-22">Image</th>
+                            <th class="w-22">Title</th>
+                            <th class="w-12">Product Id</th>
+                            <th class="w-22">Price</th>
+                            <th class="w-22">Product Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="product : ${productPage}">
+                            <td>
+                                <a th:href="@{'/product-cat/'+${product.productId}(enableBackButton=true)}">
+                                    <img class="img-thumbnail" src= "${testImageName}"
+                                         th:src= "@{${productImagePath}+${product.productId}}"  height="160"  width="100"
+                                         alt="(No product image available)"  onerror=this.src="images/no-image-available.jpg" />
+                                </a>
+                            </td>
+
+                            <td >
+                                <p><a th:text="${product.title}" th:href="@{'/product-cat/'+${product.productId}(enableBackButton=true)}"> </a></p>
+                                <a  th:href="@{'/product-cat/'+${product.productId}(enableBackButton=true)}"  class="btn btn-outline-secondary btn-sm mb-2"> View item </a>
+                                <a th:if="${isAdmin!= null}" th:href="@{'/admin/edit-product'(productId=${product.productId}, productType = ${product.productType})}" class="btn btn-outline-secondary btn-sm mb-2"> Edit Product </a>
+
+                                <a  th:if="${isAdmin!= null}"  class="btn btn-outline-secondary btn-sm mb-2" th:href="'#'+${product.productId}" data-toggle="modal" >Delete </a>
+                                <!-- START Request Deletion Modal (will pop up when user clicks 'delete product' button) -->
+                                <div class="modal" th:id="${product.productId}">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Confirm Deletion</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                You are about to delete the following product:
+                                                <br>
+                                                <b>Product Id: </b> <span th:text="${product.productId}"></span>
+                                                <br>
+                                                <b>Title: </b><span th:text="${product.title}"></span>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+
+                                                <a  th:href="@{'/admin/delete-product'(productId=${product.productId}, productType = ${product.productType})}" class="btn btn-danger"> Delete Product </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END Request Deletion Modal -->
+                            </td>
+
+                            <td th:text="${product.productId}">Text ... </td>
+                            <td th:text="${product.price}">Text ... </td>
+                            <td th:text="${{product.productType.name()}}">Text ... </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+        <!--END RESULTS TABLE-->
+
+
+
+        <!--If last page of results then display a message-->
+        <div th:if="${productPage.number + 1 == productPage.totalPages}">
+        <p class="text-center">----------  <span class="font-weight-bold"> End of Results </span> ----------</p>
+        </div>
+
+
+        <!-- INSERT PAGE NAVIGATION OPTIONS if more than one page of results -->
+        <div th:if="${not #lists.isEmpty(productPage.getContent())}" class="row justify-content-center">
+            <div th:replace="fragments/product-search :: page-nav" > </div>
+        </div>
+
+
+    </div>
+<!--END SEARCH RESULTS CONTAINER-->
+
+</body>
+
+
+
+
+
+<script th:inline="javascript">
+
+    $(document).ready(function() {
+        toggleSearchOptions();
+        initialiseSearchOptions();
+
+        // this modal will only be visible to the user if a message attribute is passed to the page in the model
+        $('#popupMessageModal').modal('show');
+    });
+
+    // make sure irrelevant search options & placeholder values are hidden if 'searchById' is checked when page loads up
+    function initialiseSearchOptions() {
+        if($('#searchById').is(":checked")) {
+                $("#titleSearchOptions").hide();
+                $("#productType").hide();
+                $("#searchTerm").attr("placeholder", "Enter a product Id").placeholder();
+        }
+    }
+
+    // display correct options depending on which  'searchBy' radio button is checked (eg. title or id search)
+    function toggleSearchOptions() {
+        $('#searchById').change(function() {
+            if($(this).is(":checked")) {
+                $("#titleSearchOptions").hide();
+                $("#productType").hide();
+                $("#searchTerm").attr("placeholder", "Enter a product Id").placeholder();
+            }
+        });
+
+        $('#searchByTitle').change(function() {
+            if($(this).is(":checked")) {
+                $("#titleSearchOptions").show();
+                $("#productType").show();
+                $("#searchTerm").attr("placeholder", "Search all").placeholder();
+            }
+        });
+    }
+</script>
+
+
+
+</html>

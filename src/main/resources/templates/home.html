@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet"    type="text/css" th:href="@{/css/styles.css}"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.1.0/css/bootstrap.css" />
+    <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<!--INSERT NAV MENU-->
+<div class="container-fluid">
+    <div th:replace="fragments/header :: header-nav"> </div>
+</div>
+
+
+<!--if there's a message, display it-->
+<div class="container mx-auto" th:if="${message != null && message != ''}">
+    <br>
+    <h3>
+        <div class="alert alert-success p-4"  th:text="${message}"></div>
+    </h3>
+</div>
+
+
+
+<!--START MAIN CONTAINER-->
+<div class = "container mt-5">
+
+
+
+        <h2>Welcome to my product catalogue demo. </h2>
+
+        <ul>
+            <li>Pick an option from the navigation bar above or from the links below</li>
+            <li>
+                <a href="/login" class="text-primary">Click here to login</a>, or click 'Login' on the navigation bar
+                (login account details are provided for the purposes of this demo)</li>
+            <li>Logout or view account details by clicking the dropdown menu on the far right of the navigation bar </li>
+        </ul>
+
+
+    <!-- MENU OPTIONS-->
+    <div class="list-group mt-5">
+
+
+        <a href="/product-search" class="list-group-item list-group-item-action list-group-item-info p-5 m-2">
+            <h2>Browse Product Catalogue</h2>
+            <ul>
+                <li><b>No login needed</b></li>
+            </ul>
+        </a>
+
+        <a href="/admin/product-search" class="list-group-item list-group-item-action list-group-item-warning p-5 m-2">
+            <h2>Edit or Delete Products</h2>
+            <ul>
+                <li><b>Login with Admin Account needed</b></li>
+            </ul>
+        </a>
+
+        <a href="/admin/add-product" class="list-group-item list-group-item-action list-group-item-warning p-5 m-2">
+            <h2>Add Products</h2>
+            <ul>
+                <li><b>Login with Admin Account needed</b></li>
+            </ul>
+        </a>
+
+        <a href="/super/adduser" class="list-group-item list-group-item-action list-group-item-danger p-5 m-2">
+            <h2>Create User Accounts</h2>
+            <ul>
+                <li><b>Login with Super-Admin Account needed</b></li>
+            </ul>
+        </a>
+
+    </div>
+    <!-- END MENU OPTIONS-->
+
+
+</div>
+<!--END MAIN CONTAINER-->
+
+
+</body>
+</html>

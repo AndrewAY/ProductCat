@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+<!--START NAVBAR HEADER-->
+<!--A navigation header to be placed on every page-->
+<nav class="navbar navbar-expand-sm  navbar-dark" style="background-color:#175796" th:fragment="header-nav">
+
+
+    <a class="navbar-brand" href="/home" data-toggle="tooltip" data-placement="top" title="Go to homepage">
+        <img  src= "/images/home.png" height="60"/> MyDemo
+    </a>
+
+
+    <div class="container">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/product-search">Search Product Catalogue</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Admin Options</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/admin/product-search">Edit or Delete Product</a>
+                            <a class="dropdown-item" href="/admin/add-product?action=add">Add Product</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Super Options</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/super/adduser">Create a User Account</a>
+                        </div>
+                    </li>
+                </ul>
+
+            <!--Display user account options, or a link to Login if a user is not logged in-->
+                <ul class="navbar-nav navbar-right">
+                    <div sec:authorize="isAuthenticated()">
+                        <li class="nav-item dropdown">
+                            <a class="text-white dropdown-toggle" data-toggle="dropdown" href="#"> Welcome,  <span sec:authentication="principal.username">User</span></a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/admin/userdetails">Account details </a>
+                                <a class="dropdown-item" href="/logout">Logout</a>
+                            </div>
+                        </li>
+                    </div>
+
+                    <div sec:authorize="isAnonymous()">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Login</a>
+                        </li>
+                    </div>
+                </ul>
+        </div>
+    </div>
+</nav>
+<!--END NAVBAR HEADER-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="navbar navbar-inverse navbar-fixed-top" th:fragment="header0">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar">foggy</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">My project</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li th:classappend="${module == 'home' ? 'active' : ''}">
+                    <a href="#" th:href="@{/}">Home</a>
+                </li>
+                <li th:classappend="${module == 'tasks' ? 'active' : ''}">
+                    <a href="#" th:href="@{/task}">Tasks</a>
+                </li>
+            </ul>
+
+
+
+            <ul class="nav navbar-nav navbar-right">
+                <!--<li th:if="${#authorization.expression('!isAuthenticated()')}">-->
+                <!--<a href="/signin" th:href="@{/signin}">-->
+                <!--<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;Sign in-->
+                <!--</a>-->
+                <!--</li>-->
+                <!--<li th:if="${#authorization.expression('isAuthenticated()')}">-->
+                <li>
+                    <a href="/logout" th:href="@{#}" onclick="$('#form').submit();">
+                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout
+                    </a>
+                    <form style="visibility: hidden" id="form0" method="post" action="#" th:action="@{/logout}"></form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<nav class="navbar navbar-default" th:fragment="header">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">WebSiteName</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">Page 1</a></li>
+            <li><a href="#">Page 2</a></li>
+            <li><a href="#">Page 3</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="navbar navbar-inverse navbar-fixed-top" th:fragment="header2">
+    <div class="container">
+        <div class="navbar-header">
+            <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">-->
+                <!--<span class="icon-bar">foggy</span>-->
+                <!--<span class="icon-bar"></span>-->
+                <!--<span class="icon-bar"></span>-->
+            <!--</button>-->
+            <a class="navbar-brand" href="#">My project</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li th:classappend="${module == 'home' ? 'active' : ''}">
+                    <a href="#" th:href="@{/}">Home</a>
+                </li>
+                <li th:classappend="${module == 'tasks' ? 'active' : ''}">
+                    <a href="#" th:href="@{/task}">Tasks</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <!--<li th:if="${#authorization.expression('!isAuthenticated()')}">-->
+                <!--<a href="/signin" th:href="@{/signin}">-->
+                <!--<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;Sign in-->
+                <!--</a>-->
+                <!--</li>-->
+                <!--<li th:if="${#authorization.expression('isAuthenticated()')}">-->
+                <li>
+                    <a href="/logout" th:href="@{#}" onclick="$('#form').submit();">
+                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout
+                    </a>
+                    <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

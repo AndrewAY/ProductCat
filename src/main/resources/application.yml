@@ -1,0 +1,63 @@
+###### AN H2 EMBEDDED DATABASE WILL BE USED FOR DEMONSTRATION PURPOSES #############
+
+# Gives us access to the H2 database web console
+spring.h2.console.enabled: true
+# Generates the database *only* if it's not there yet
+spring.jpa.hibernate.ddl-auto: "update"
+# Creates the database in a file
+#spring.datasource.url: "jdbc:h2:file:~/product-cat;DB_CLOSE_ON_EXIT=FALSE;"
+#spring.datasource.url: "jdbc:h2:file:~/product-cat;"
+spring.datasource.url: "jdbc:h2:file:./database/product-cat;DB_CLOSE_ON_EXIT=FALSE;"
+
+
+############################################################################
+
+#spring.jpa.hibernate.ddl-auto: "create-drop"
+
+##### SETTING FOR MYSQL SERVER #####################
+#spring.datasource.url: "jdbc:mysql://localhost:3306/vehicle?useSSL=false"
+#spring.datasource.url: "jdbc:mysql://localhost:3306/temp?useSSL=false"
+#spring.datasource.username: "root"
+#spring.datasource.password: "root"
+#spring.jpa.properties.hibernate.dialect: "org.hibernate.dialect.MySQL5Dialect"
+#spring.datasource.driver-class-name: "com.mysql.cj.jdbc.Driver"
+
+# Generates the database *only* if it's not there yet
+#spring.jpa.hibernate.ddl-auto: "update"
+###################################################
+
+
+
+
+
+# customising logging levels
+logging:
+  level:
+     root: WARN  //orig
+     com.andrew: INFO //orig
+
+
+# location for logging file
+#  file: /var/andysLogs/AndrewsLogs.log
+
+
+
+
+
+# path for image files
+upload.image.relative.path: dynamic-resources/product-images/
+image.file.extension.type: .jpg
+
+#path for webpage to use to access image resources
+product.image.url: /dynamic-resources/product-images/
+
+
+product-search-url: /product-search
+general-product-search-url: /product-search
+admin-product-search-url: /admin/product-search
+
+#for my Validator classes to know where to look for properties
+spring.messages.basename: validation
+
+#test variable to indicate what app config is being used (eg development etc)
+example.property: "I am normal"

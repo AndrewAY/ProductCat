@@ -1,0 +1,4 @@
+example.property: "I am a developer"
+#So I can reload Thymeleaf templates without restarting the server.
+spring.thymeleaf.cache: false
+spring.thymeleaf.prefix: "file:///D:/MyProjects/product-cat2/src/main/resources/templates/"

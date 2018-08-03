@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add a Book</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"    type="text/css" th:href="@{/css/styles.css}"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.1.0/css/bootstrap.css" />
+    <!--<link rel="stylesheet" href="/webjars/font-awesome/5.0.9/web-fonts-with-css/css/fontawesome-all.css" />-->
+    <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<!--INSERT NAV MENU-->
+<div class="container-fluid">
+    <div th:replace="fragments/header :: header-nav"> </div>
+</div>
+
+
+
+
+
+
+
+<!--START MAIN CONTAINER-->
+<div class = "container mx-auto">
+    <br>
+
+
+    <!--INSERT GUIDANCE/INSTRUCTIONS-->
+    <div th:replace="fragments/add-or-edit-product-forms :: instructions-message"> </div>
+
+
+    <!--START ADD-BOOK FORM-->
+    <form th:action="${actionURL}" th:object="${book}"  method="post">
+
+        <!--add generic product input fields and error message handling  applicable for all products-->
+        <div th:replace="fragments/add-or-edit-product-forms :: generic-fields-for-add-or-edit-product-forms"> </div>
+
+
+
+        <!--add input fields specific for this product type-->
+        <div class="form-group">
+            <label for="format" th:class="${#fields.hasErrors('format')}? 'form-control error':'font-weight-bold'">Format</label>
+            <select class="form-control" id="format" th:field="*{format}">
+                <option th:each="format : ${availableFormats}"
+                        th:text="${format.format}"
+                        th:value="${format.formatId}"></option>
+            </select>
+        </div>
+
+
+        <div class="form-group">
+            <label for="languagesCheckbox" th:class="${#fields.hasErrors('language')}? 'error':'font-weight-bold'">Language </label>
+            <div  th:class="${#fields.hasErrors('language')}? 'error':'border'">
+                <div th:each="currentLanguage,stat : ${availableLanguages}" class="form-check-inline ml-2">
+                        <input type="radio" id="languagesCheckbox" class="form-check-input"
+                               th:field="*{language}"
+                               th:value="${currentLanguage.languageId}"
+                               th:text="${currentLanguage.name}"/>
+                    <input type="hidden" th:value="${currentLanguage.name}" />
+                </div>
+            </div>
+        </div>
+
+
+        <div>
+        <button type="submit" class="btn btn-primary mt-4">Save and Continue</button>
+        </div>
+
+
+        <!--hidden fields to pass values to controller if it's an existing product for editing-->
+        <th:block th:if="${action == 'edit'}">
+            <input type="hidden" th:value="*{productId}" th:field="*{productId}" name="productId">
+            <input type="hidden" th:value="*{createdAt}" th:field="*{createdAt}" name="createdAt">
+            <input type="hidden" th:value="*{imageName}" th:field="*{imageName}" name="productType">
+        </th:block>
+
+    </form>
+    <!--END ADD-BOOK FORM-->
+
+
+</div>
+<!--END MAIN CONTAINER-->
+
+
+
+
+
+</body>
+</html>

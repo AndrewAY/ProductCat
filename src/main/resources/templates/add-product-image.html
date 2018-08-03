@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Add Product Image</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"    type="text/css" th:href="@{/css/styles.css}"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.1.0/css/bootstrap.css" />
+    <link rel="stylesheet" href="/webjars/font-awesome/5.0.9/web-fonts-with-css/css/fontawesome-all.css" />
+
+    <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+
+
+
+<body>
+
+<!--INSERT NAV MENU-->
+<div class="container-fluid">
+    <div th:replace="fragments/header :: header-nav"> </div>
+</div>
+
+
+
+
+<!--START MAIN CONTAINER-->
+<div class = "container mx-auto">
+    <br>
+
+    <!--DISPLAY A RELEVANT MESSAGE DEPENDING ON IF IT'S AN 'ADD' OR 'EDIT' PRODUCT REQUEST-->
+    <div  th:if="${action == 'add'}">
+        <div class="alert alert-secondary">
+            <h5>Step 2: Upload a product image. <small class="font-italic">A default image will be used if no image is chosen</small></h5>
+        </div>
+        <br>
+        <p class="font-weight-bold"> Select an image to upload, or leave to use a default image. Click 'Continue' when done.</p>
+    </div>
+
+    <div  th:if="${action == 'edit'}">
+        <div class="alert alert-secondary">
+            <h5>Edit Product (ID: <span th:text="${product.productId}"></span>)
+                <br>
+                Step 2 (Optional): Change product image (if required) then click 'Save and Continue'</h5>
+        </div>
+
+        <div class="col-md-4">
+            <label for="productImage" class="font-weight-bold"> Current image: </label>
+            <img src= ""   th:src="@{${productImagePath}+${product.productId}}"  height="130"  width="100"   alt="(No product image available)" id="productImage"/>
+        </div>
+
+        <br>
+        <p class="font-weight-bold"> Select a new image to upload, or leave to stick with current image. Click 'Continue' when done.</p>
+    </div>
+    <!-- END DISPLAY MESSAGE -->
+
+
+    <!--ADD-IMAGE FORM-->
+    <form th:action="@{'/admin/add-product-image/' + ${product.productId}}"  method="post" enctype="multipart/form-data">
+        <input type="file" name="file" class="border">
+        <br> <br> <br>
+        <button type="submit" class="btn btn-primary">Continue</button>
+        <input type="hidden" th:value="${action}" name="action"/>
+    </form>
+
+
+</div>
+<!--END MAIN CONTAINER-->
+
+</body>
+</html>

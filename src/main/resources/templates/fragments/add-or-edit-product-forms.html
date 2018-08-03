@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+
+<!--START generic-fields-for-add-or-edit-product-form-->
+    <!--These are input fields and error messaging that are relevant to all products-->
+    <div th:fragment="generic-fields-for-add-or-edit-product-forms">
+
+    <!--this goes at the top to display form errors -->
+        <div  class="alert alert-danger mb-5" th:if="${#fields.hasErrors('*')}">
+            <ul>
+                <li th:each="err : ${#fields.errors('*')}"
+                    th:text="${err}">There were errors in your input values</li>
+            </ul>
+        </div>
+
+        <div class="form-group">
+            <label for="title" th:class="${#fields.hasErrors('title')}? 'error':'font-weight-bold'">Title</label>
+            <input type="text" id="title" th:field="*{title}" th:class="${#fields.hasErrors('title')}? 'form-control error':'form-control'">
+        </div>
+
+        <div class="form-group">
+            <label for="description" th:class="${#fields.hasErrors('description')}? 'error':'font-weight-bold'">Description</label>
+            <textarea id="description" rows="6" th:field="*{description}" th:class="${#fields.hasErrors('description')}? 'form-control error':'form-control'"></textarea>
+        </div>
+
+
+        <div class="form-group">
+            <label for="price" th:class="${#fields.hasErrors('price')}? 'error':'font-weight-bold'">Price</label>
+            <input type="number" id="price" min="0.00" max="100000000.00" step="0.01" th:field="*{price}" th:class="${#fields.hasErrors('price')}? 'form-control error':'form-control'">
+        </div>
+
+    </div>
+<!--END generic-fields-for-add-or-edit-product-form-->
+
+
+
+
+
+
+<!--START instructions-message-->
+    <div th:fragment="instructions-message">
+        <div  th:if="${action == 'add'}">
+            <div class="alert alert-secondary">
+                <h5>Add Product
+                    <br>
+                    Step 1: Enter details then click 'Save and Continue'</h5>
+            </div>
+        </div>
+
+
+        <div  th:if="${action == 'edit'}">
+            <div class="alert alert-secondary">
+                <h5>Edit Product (ID: <span th:text="*{productId}"></span>)
+                    <br>
+                    Step 1 (Optional): Edit details then click 'Save and Continue'</h5>
+            </div>
+        </div>
+    </div>
+<!--END instructions-message-->
+
+
+
+</body>
+</html>

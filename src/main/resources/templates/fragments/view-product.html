@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+
+<!--START OF JUMBOTRON TITLE HEADING-->
+    <!--jumbotron containing title, price, image etc that can be used at the top of all product-info pages-->
+    <div th:fragment="view-product-jumbotron-heading">
+        <div class="jumbotron pt-4 pb-4 mt-4 mb-4 text-white bg-dark ">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src= ""  th:src= "@{${productImagePath}+${product.productId}}"  height="230"  width="200"
+                             alt="(No product image available)" onerror=this.src="images/no-image-available.jpg" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <h1  class="text-yellow" th:text="${product.title}">View Movie Details</h1>
+                        <p th:text="${product.description}"></p>
+                    </div>
+
+                    <div class="col-md-2">
+                        <h1>£<span th:text="${product.price}"></span></h1>
+                    </div>
+                </div>
+            </div>
+        </div><!--end of jumbotron-->
+</div>
+<!--END OF JUMBOTRON TITLE HEADING-->
+
+
+
+
+
+
+<!--START OF generic-product-table-rows-->
+    <!--These rows can be included in product-info tables. They contain generic product info that can be applied to all product types. -->
+    <div th:fragment="generic-product-table-rows">
+        <tr>
+            <td class="table-active font-weight-bold">Product ID</td>
+            <td th:text="${product.productId}"></td>
+        </tr>
+        <tr>
+            <td class="table-active font-weight-bold">Product Category</td>
+            <td th:text="${{product.productType.name()}}"></td>
+        </tr>
+        <tr>
+            <td class="table-active font-weight-bold">Date Listed</td>
+            <!--<td th:text="${#temporals.format(dateListed, 'dd-MM-yyyy')}"></td>-->
+            <td th:text="${#temporals.format(product.createdAtAsZonedDateTime, 'dd-MM-yyyy')}"></td>
+        </tr>
+        <!--<tr>-->
+            <!--<td class="table-active font-weight-bold">Description</td>-->
+            <!--<td  th:text="${#strings.defaultString(product.description,'(No description provided)')}"> </td>-->
+        <!--</tr>-->
+</div>
+<!--END OF generic-product-table-rows-->
+
+
+
+
+
+
+<!--START OF back-button-->
+    <!--this wil enable a back button if an enableBackButton object has been included with the model-->
+    <div th:fragment="back-button">
+
+        <div class="row mx-auto">
+            <div  th:if="${enableBackButton!= null}">
+                <div th:if="${backButtonURL!= null}">
+                    <a th:href="${backButtonURL}"  th:text="${backButtonText}" class="btn btn-primary">Back</a>
+                </div>
+                <div th:if="${backButtonURL== null}">
+                    <button  type="button" class="btn btn-primary mx-auto" onclick="goBack()">Go Back</button>
+                </div>
+
+                <script>
+                    function goBack() {
+                        window.history.back();
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+<!--END OF back-button-->
+
+
+
+
+
+
+<!--START OF add-or-edit-product-confirmation-->
+    <!--this handles error messaging and displays the jumbrotron with generic info that can be applied for all product types-->
+    <div th:fragment="add-or-edit-product-confirmation">
+
+        <!--if there's an error, display it-->
+        <th:block th:if="${error != null && error != ''}" >
+            <br>
+            <row>
+                <h3>
+                    <div class="alert alert-danger"  th:text="${error}">Unable to upload image></div>
+                </h3>
+            </row>
+        </th:block>
+
+
+        <!--if there's a message, display it-->
+        <th:block th:if="${message != null && message != ''}" >
+            <br>
+            <row>
+                <h3>
+                    <div class="alert alert-success"  th:text="${message}">Product added successfully></div>
+                </h3>
+            </row>
+        </th:block>
+    </div>
+<!--END OF add-or-edit-product-confirmation-->
+
+
+
+</body>
+</html>

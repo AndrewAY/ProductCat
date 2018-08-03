@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add a User</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet"    type="text/css" th:href="@{/css/styles.css}"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.1.0/css/bootstrap.css" />
+    <link rel="stylesheet" href="/webjars/font-awesome/5.0.9/web-fonts-with-css/css/fontawesome-all.css" />
+
+    <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<!--INSERT NAV MENU-->
+<div class="container-fluid">
+    <div th:replace="fragments/header :: header-nav"> </div>
+</div>
+
+
+<!--START MAIN CONTAINER-->
+<div class = "container mx-auto">
+    <br>
+
+
+    <div class="alert alert-success">
+        <h4><strong>Add a new user: </strong></h4>
+    </div>
+
+    <!--START ADD-USER FORM-->
+    <form th:action="@{/super/adduser}"  th:object="${user}"  method="post">
+
+        <!--this goes at the top to display form errors -->
+        <div  class="alert alert-danger mb-5" th:if="${#fields.hasErrors('*')}">
+            <ul>
+                <li th:each="err : ${#fields.errors('*')}"
+                    th:text="${err}">There were errors in your input values</li>
+            </ul>
+        </div>
+
+        <div class="form-group">
+            <label for="email" th:class="${#fields.hasErrors('email')}? 'error':'font-weight-bold'">Email</label>
+            <input type="email" id="email" th:field="*{email}" th:class="${#fields.hasErrors('email')}? 'form-control error':'form-control'">
+        </div>
+
+        <div class="form-group">
+            <label for="displayName" th:class="${#fields.hasErrors('displayName')}? 'error':'font-weight-bold'">Display Name</label>
+            <input type="text" id="displayName" th:field="*{displayName}" th:class="${#fields.hasErrors('displayName')}? 'form-control error':'form-control'">
+        </div>
+
+
+        <div class="form-group">
+            <label for="displayName" th:class="${#fields.hasErrors('displayName')}? 'error':'font-weight-bold'">Password</label>
+            <input type="password" id="password" th:field="*{password}" th:class="${#fields.hasErrors('password')}? 'form-control error':'form-control'">
+        </div>
+
+
+        <div class="form-group">
+            <label for="roles" th:class="${#fields.hasErrors('roles')}? 'form-control error':'font-weight-bold'">Role</label>
+            <select class="form-control" id="roles" th:field="*{roles}">
+                <option th:each="role : ${availableRoles}"
+                        th:text="${{role.getDisplayName()}}"
+                        th:value="${role.id}"></option>
+            </select>
+
+            <div>
+                <button type="submit" class="btn btn-primary mt-4">Save</button>
+            </div>
+        </div>
+
+    </form>
+    <!--END ADD-MOVIE FORM-->
+
+
+</div>
+<!--END MAIN CONTAINER-->
+
+
+</body>
+</html>

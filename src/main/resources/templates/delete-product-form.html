@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet"    type="text/css" th:href="@{/css/styles.css}"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.1.0/css/bootstrap.css" />
+    <link rel="stylesheet" href="/webjars/font-awesome/5.0.9/web-fonts-with-css/css/fontawesome-all.css" />
+
+    <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<!--INSERT NAV MENU-->
+<div class="container-fluid">
+    <div th:replace="fragments/header :: header-nav"> </div>
+</div>
+
+<!--START MAIN CONTAINER-->
+<div class = "container mx-auto">
+    <br>
+
+    <div class="alert alert-warning">
+        <h5>You are about to delete the following product: </h5>
+    </div>
+
+
+    <table class="table table-bordered">
+
+        <tbody>
+
+        <!--insert generic rows relevant for all products-->
+        <div th:replace="fragments/view-product :: generic-product-table-rows"> </div>
+
+        </tbody>
+
+    </table>
+
+
+    <!--START DELETE PRODUCT FORM-->
+    <form th:action="@{/admin/delete-product}"   method="post">
+
+        <div>
+            <button type="submit" class="btn btn-primary mt-4">Confirm deletion</button>
+        </div>
+
+
+    </form>
+    <!--END ADD-MOVIE FORM-->
+
+
+</div>
+<!--END MAIN CONTAINER-->
+
+
+
+<!--<label class="error">Test Label</label>-->
+<!--<input type="text"  value="Test" class= "error">-->
+<!--Test msg-->
+
+<!--<div>-->
+<!--<h3>Add Movie Form (add-movie.html)</h3>-->
+<!--<form th:action="@{/admin/add-movie}" th:object="${movie}"  method="post">-->
+
+<!--&lt;!&ndash;this goes at the top to display form errors with the css stylesheet formatting&ndash;&gt;-->
+<!--<div class="error" th:if="${#fields.hasErrors('*')}">-->
+<!--<ul>-->
+<!--<li th:each="err : ${#fields.errors('*')}"-->
+<!--th:text="${err}">Input is incorrect</li>-->
+<!--</ul><br>-->
+<!--</div>-->
+
+
+
+
+<!--<label th:class="${#fields.hasErrors('title')}? 'error'">Title</label>-->
+<!--<input type="text" th:field="*{title}" th:class="${#fields.hasErrors('title')}? 'error'">-->
+
+
+<!--<label th:class="${#fields.hasErrors('price')}? 'error'">Price</label>-->
+<!--<input type="number" min="0.00" max="100000000.00" step="0.01" th:field="*{price}" th:class="${#fields.hasErrors('price')}? 'error'">-->
+
+
+<!--&lt;!&ndash;<label th:class="${#fields.hasErrors('languages')}? 'error'">Languages Error</label>&ndash;&gt;-->
+<!--<label>Languages</label>-->
+<!--&lt;!&ndash;<div th:each="language,iterStatus : ${availableLanguages}">&ndash;&gt;-->
+<!--&lt;!&ndash;<input type="checkbox" th:field="*{languages}" name="languages[${iterStatus.index}]" th:value="${language}" th:text="${language.name}"> <br>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+<!--<div th:each="currentLanguage,stat : ${availableLanguages}">-->
+<!--<input type="checkbox"-->
+<!--th:field="*{languages}"-->
+<!--th:value="${currentLanguage.languageId}"-->
+<!--th:text="${currentLanguage.name}"/>-->
+<!--<input type="hidden" th:value="${currentLanguage.name}" />-->
+
+<!--</div>-->
+
+
+<!--&lt;!&ndash;need to pass availaiable languages back in case there's a validation error and need to redisplay them&ndash;&gt;-->
+<!--&lt;!&ndash;<input type="hidden" value="${availableLanguages}" name="availableLanguages" />&ndash;&gt;-->
+
+
+
+
+<!--&lt;!&ndash;<th:each="language : ${availableLanguages}">&ndash;&gt;-->
+
+
+
+<!--&lt;!&ndash;</th:each>&ndash;&gt;-->
+
+<!--<div>-->
+<!--<button type="submit">Submit</button>-->
+<!--</div>-->
+
+
+
+
+
+<!--</form>-->
+
+
+
+
+
+
+<!--</div>-->
+
+
+
+</body>
+</html>

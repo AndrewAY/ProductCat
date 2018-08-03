@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>View Book Details</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"    type="text/css" th:href="@{/css/styles.css}"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.1.0/css/bootstrap.css" />
+    <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+
+
+
+<body>
+
+    <!--display the nav bar-->
+    <div class="container-fluid">
+        <div th:replace="fragments/header :: header-nav"> </div>
+    </div>
+
+    <!--display confirmation of added products if user has just added a product-->
+    <div class="container mx-auto">
+    <div th:replace="fragments/view-product :: add-or-edit-product-confirmation"> </div>
+    </div>
+
+
+    <!--jumbotron for the title, photo and description-->
+    <div th:replace="fragments/view-product :: view-product-jumbotron-heading"> </div>
+
+    <!--a table displaying product info-->
+    <div class="container">
+        <h2>Product Details</h2>
+
+    <table class="table table-bordered">
+        <tbody>
+        <!--insert generic rows relevant for all products-->
+            <div th:replace="fragments/view-product :: generic-product-table-rows"> </div>
+
+        <!--insert rows specific for this product type-->
+            <tr>
+                <td class="table-active font-weight-bold">Format</td>
+                <td th:text="${product.format.format}"></td>
+            </tr>
+            <tr>
+                <td class="table-active font-weight-bold">Language</td>
+                <td th:text="${product.language.name}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+        <div class="row mx-auto">
+            <!--handle back button requests-->
+            <div th:replace="fragments/view-product :: back-button"> </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
