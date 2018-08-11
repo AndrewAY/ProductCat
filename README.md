@@ -3,15 +3,11 @@
 1.	What this project is about	
 2.	Application/Development Features	
 3.	How to run the application
-
-<br>
+***
 #
 ## 1. WHAT THIS PROJECT IS ABOUT
 This project showcases some of the skills picked up during my Computer Science Masters degree and my own personal study. It is an online product catalogue system that allows users to log in and carry out tasks based on their role privileges, such as adding products, editing product details or images, and adding new users.
 
-
-<br>
-#
 ## 2.	APPLICATION/DEVELOPMENT FEATURES
 Design/coding features include:
 * MVC pattern, loose coupling, cohesive classes, inheritance and the use of pagination to ease server load 
@@ -41,7 +37,7 @@ Application Features:
 \**Login emails and passwords are provided on the login page to allow you to login to an Admin or a Super account.*
 
 
-<br>
+
 #
 ## 3.	HOW TO RUN THE APPLICATION
 
