@@ -59,8 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                     .antMatchers("/").permitAll()
 //                    .antMatchers("/admin/**").hasRole("ADMIN")
-                    .antMatchers("/admin/**").hasAnyRole("ADMIN","SUPER")
-                    .antMatchers("/super/**").hasRole("SUPER")
+                .antMatchers("/admin/**").hasAnyRole("ADMIN","SUPER")
+                    .antMatchers("/super/**").hasRole("SUPER") //maybe put this in later?
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()
@@ -73,18 +73,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                     .logoutSuccessUrl("/login?logout")
-//                    .deleteCookies("remember-me")
                     .permitAll()
                     .and()
-//                .rememberMe()
-//                    .and()
                 .exceptionHandling()
-                    .accessDeniedPage("/accessDenied")
-                ;
-
-//                        .key("my-secure-key")
-//                        .rememberMeCookieName("andrews-remember-me-cookie")
-//                        .tokenValiditySeconds(24 * 60 * 60); //valid for a 24 hours
+                .accessDeniedPage("/accessDenied")
+                .and()
+                .rememberMe()
+                        .key("my-secure-key")
+                        .rememberMeCookieName("andrews-remember-me-cookie")
+                        .tokenValiditySeconds(24 * 60 * 60); //valid for a 24 hours
 
 
         //for the sake of using an embedded h2 database for demo purposes, I will

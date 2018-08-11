@@ -60,7 +60,7 @@ public class DemoInit {
                 hasn't been initialised with sample data yet*/
             boolean hasUsers = userRepository.findAll().iterator().hasNext();
             if (hasUsers) {
-                //do nothing (sample data already initialised)
+                log.info("user records found");
             } else {
                 log.info("No user records found. Will run script to initialise database with sample data for demo purposes");
                 Connection connection = datasource.getConnection();
@@ -103,7 +103,6 @@ public class DemoInit {
 
         try {
             //unzip the image resources and copy to dest folder on the user's drive
-            log.info("Copying image resources to destination directory");
             InputStream is = getClass().getResourceAsStream("/init/product-images.zip");
             ZipInputStream zipIn = new ZipInputStream(is);
             ZipEntry entry = zipIn.getNextEntry();
@@ -111,6 +110,8 @@ public class DemoInit {
             while (entry != null) {
 
                 String destPath = new File(uploadImagePath +  entry.getName()).getAbsolutePath();
+                System.out.println("first entry.: " + entry.getName());
+                System.out.println("destPath: " + destPath);
                 extractFile(zipIn, destPath);
 
                 zipIn.closeEntry();
