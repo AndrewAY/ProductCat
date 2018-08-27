@@ -6,7 +6,7 @@
 
  &nbsp;
 ## 1. WHAT THIS PROJECT IS ABOUT
-This project showcases some of the skills picked up during my Computer Science Master's degree and my own personal study. It is an online product catalogue system that allows users to log in and carry out tasks based on their role privileges, such as adding products, editing product details or images, and adding new users.
+This project showcases some of the skills picked up during my Computer Science master's degree and my own personal study. It is an online product catalogue system that allows users to log in and carry out tasks based on their role privileges, such as adding products, editing product details or images, and adding new users.
 
 
 
@@ -18,7 +18,6 @@ Design/coding features include:
 * Exception handling and logging
 * Unit testing 
 * Security features such as password encryption and restricted access to URLs (based on role privileges)
-* Remember-Me feature (with hash-based token as a cookie)
 * File uploads
 * Easy to navigate and scalable UI 
 
@@ -39,7 +38,7 @@ Available User Activities:
 * Add/Edit/Delete Products (Admin and Super-Admin users only – login required*)
 * Add Users (\'Super Admin\' only)
 
-\**Login emails and passwords are provided on the login page to allow you to login to an Admin or a \'Super Admin\' account.*
+\**Login emails and passwords are provided on the login page to allow you to log in to an Admin or a \'Super Admin\' account.*
 
 
 
