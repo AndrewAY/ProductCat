@@ -6,7 +6,7 @@
 
  &nbsp;
 ## 1. WHAT THIS PROJECT IS ABOUT
-This project showcases some of the skills picked up during my Computer Science master's degree and my own personal study. It is an online product catalogue system that allows users to log in and carry out tasks based on their role privileges, such as adding products, editing product details or images, and adding new users.
+This project showcases some of the skills picked up during my Computer Science master's degree and my own personal study. It is a web-based product management system that allows users to log in and carry out tasks based on their role privileges, such as adding products, editing product details or images, and adding new users.
 
 
 
